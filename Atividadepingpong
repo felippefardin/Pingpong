@@ -1,0 +1,32 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func player1(c chan string) {
+	for {
+		c <- "ping"
+		time.Sleep(time.Second)
+	}
+}
+
+func player2(c chan string) {
+	for {
+		c <- "pong"
+		time.Sleep(time.Second)
+	}
+}
+
+func main() {
+	c := make(chan string)
+
+	go player1(c)
+	go player2(c)
+
+	for {
+		msg := <-c
+		fmt.Println(msg)
+	}
+}
